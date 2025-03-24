@@ -39,6 +39,8 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	//glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, 1);
+	//glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 
 	// Create GLFW window object
 	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
@@ -80,10 +82,9 @@ int main() {
 		// Clear the color buffer using the specified values from glClearColor
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// Rendering commands
 		glUseProgram(shaderProgram);
-		glBindVertexArray(shape.VAO);
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		// Rendering commands
+		DrawTriangle(shape);
 
 		// Swaps the front and back buffers (avoids potential flickering)
 		glfwSwapBuffers(window);

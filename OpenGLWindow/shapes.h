@@ -37,3 +37,36 @@ class Triangle
 		std::cout << "INFO: [VAO] " << VAO << ", [VBO] " << VBO << " created successfully\n";
 	}
 };
+
+class Rectangle {
+public:unsigned int EBO;
+
+public:Rectangle() {
+	float vertices[] = {
+		0.5f, 0.5f, 0.0f, // top right
+		0.5f, -0.5f, 0.0f, // bottom right
+		-0.5f, -0.5f, 0.0f, // bottom left
+		-0.5f, 0.5f, 0.0f // top left
+	};
+	unsigned int indices[] = { // note that we start from 0!
+		0, 1, 3, // first triangle
+		1, 2, 3 // second triangle
+	};
+
+	glGenBuffers(1, &EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	std::cout << "INFO: [EBO] " << EBO << " created successfully";
+}
+};
+
+/*
+	Drawing functions
+*/
+
+
+// Draws a triangle object to the screen
+void DrawTriangle(Triangle triangle);
+// Draws a rectangle object to the screen
+void DrawRectangle(Rectangle rectangle);
