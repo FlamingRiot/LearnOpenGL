@@ -6,6 +6,8 @@
 #include "shapes.h";
 
 #define ERROR_LOG_SIZE 512
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
 
 // Callback functions' signatures
 void framebuffer_resize_callback(GLFWwindow* window, int width, int height);
@@ -39,11 +41,11 @@ int main() {
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	//glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, 1);
+	glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, 1);
 	//glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
 
 	// Create GLFW window object
-	GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "LearnOpenGL", NULL, NULL);
 	if (window == NULL) {
 		std::cout << "ERROR: Failed to create GLFW window\n";
 		glfwTerminate();
@@ -60,10 +62,13 @@ int main() {
 	}
 
 	// Set OpenGL viewport specifications
-	glViewport(0, 0, 800, 600);
+	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	// Create triangle to draw
 	Triangle shape;
+	Rectangle rec(0, 0, 100, 100);
 
 	// Load shader program
 	int shaderProgram = loadDefaultShaders();
@@ -73,7 +78,7 @@ int main() {
 	glfwSetFramebufferSizeCallback(window, framebuffer_resize_callback);
 
 	// Specifies the values used by glClear to clear the color buffer
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 	// Render loop
 	while (!glfwWindowShouldClose(window)) {
 		// Process the window's inputs
@@ -84,7 +89,8 @@ int main() {
 
 		glUseProgram(shaderProgram);
 		// Rendering commands
-		DrawTriangle(shape);
+		//DrawTriangle(shape);
+		DrawRectangle(rec);
 
 		// Swaps the front and back buffers (avoids potential flickering)
 		glfwSwapBuffers(window);
