@@ -3,7 +3,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(ogl VERSION 1.0)
-add_executable(ogl main.cpp lib/GLAD/glad.c)
+file(GLOB_RECURSE SRC_FILES src/*.cpp)
+add_executable(ogl ${SRC_FILES})
 
 # GLFW loading
 add_library(glfw STATIC IMPORTED GLOBAL)
