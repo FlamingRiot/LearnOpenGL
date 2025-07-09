@@ -5,9 +5,9 @@
 
 namespace graphics{
 
-    void clearBackground(){
+    void clearBackground(float r, float g, float b, float a){
         // Clear framebuffer with a defined color
-        glClearColor(0.8f, 1.0f, 0.8f, 1.0f);
+        glClearColor(r, g, b, a);
         glClear(GL_COLOR_BUFFER_BIT);
     }
 }

@@ -45,7 +45,7 @@ static void updateWindow(){
         input::process();
 
         // Render commands
-        graphics::clearBackground();
+        graphics::clearBackground(0.8f, 1.0f, 0.8f, 1.0f);
 
         // Swap buffers and check/call events
         glfwSwapBuffers(window);
