@@ -5,7 +5,7 @@ int main(){
 
     engine::run();
 
-    std::cout << "[GLFW] Window exited successfully\n";
+    std::cout << "[GLFW] INFO : Window exited successfully\n";
 
     return 0;
 }

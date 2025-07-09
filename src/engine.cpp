@@ -21,7 +21,7 @@ static void loadWindow(){
 
     window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "LearnOpenGL", NULL, NULL);
     if (window == NULL){
-        std::cout << "Failed to create GLFW window\n";
+        std::cout << "[GLFW] INFO : Failed to create window\n";
         glfwTerminate();
     }
 
@@ -29,17 +29,32 @@ static void loadWindow(){
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        std::cout << "Failed to initialize GLAD" << std::endl;
+        std::cout << "[GLAD] ERROR : Failed to initialize\n" << std::endl;
         glfwTerminate();
     }
 
     glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    std::cout << "[GLFW] Window successfully created\n";
+    std::cout << "[GLFW] INFO : Window created successfully\n";
 }
 
 static void updateWindow(){
 
+    // Define vertices
+    float vertices[] = {
+        -0.5f, -0.5f, 0.0f,
+         0.5f, -0.5f, 0.0f,
+         0.0f,  0.5f, 0.0f
+    };
+
+    // Generate Vertex Buffer Object
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);
+    // Bind VBO to the Array Buffer
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    // Copy the defined data to the Array Buffer (which is linked to our current VBO)
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    
     while (!glfwWindowShouldClose(window)){
         // Input
         input::process();
@@ -61,6 +76,7 @@ static void closeWindow(){
 void run(){
     // Load Engine
     loadWindow();
+    graphics::loadDefaultShaders();
 
     // Update engine
     updateWindow();
