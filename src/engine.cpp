@@ -4,6 +4,7 @@
 #include <glfw3.h>
 
 #include "input.hpp"
+#include "graphics.hpp"
 #include <iostream>
 
 namespace engine {
@@ -40,8 +41,13 @@ static void loadWindow(){
 static void updateWindow(){
 
     while (!glfwWindowShouldClose(window)){
+        // Input
         input::process();
 
+        // Render commands
+        graphics::clearBackground();
+
+        // Swap buffers and check/call events
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -55,7 +61,11 @@ static void closeWindow(){
 void run(){
     // Load Engine
     loadWindow();
+
+    // Update engine
     updateWindow();
+
+    // Close and unload engine
     closeWindow();
 }
 
