@@ -1,4 +1,5 @@
 #include "shader.hpp"
+#include "graphics.hpp"
 
 #include <glad/glad.h>
 #include <glfw3.h>
@@ -55,9 +56,10 @@ namespace graphics{
         glDeleteShader(fragmentShader);
     }
 
-    Shader::Shader(){
-        Shader def = Shader(&vertexShaderSource, &fragmentShaderSource);
-        this->id = def.id;
+    Shader::Shader() {}
+
+    void loadDefaultShaders(){
+        baseShader = Shader(&vertexShaderSource, &fragmentShaderSource);
     }
 
     static void checkShaderCompileStatus(unsigned int shaderId){

@@ -13,4 +13,6 @@ namespace graphics{
 
             void unload();
     };
+
+    void loadDefaultShaders();
 }

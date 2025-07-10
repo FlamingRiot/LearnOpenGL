@@ -133,7 +133,7 @@ void run(){
     loadWindow();
 
     // Load base shader
-    graphics::baseShader = graphics::Shader();
+    graphics::loadDefaultShaders();
 
     // Update engine
     updateWindow();
