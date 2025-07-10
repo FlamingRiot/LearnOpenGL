@@ -5,10 +5,14 @@
 
 namespace engine {
 
-    const int WINDOW_WIDTH = 400;
-    const int WINDOW_HEIGHT = 300;
+    // Constants
+    const int WINDOW_WIDTH = 800;
+    const int WINDOW_HEIGHT = 600;
+    const float WAYLAND_SCALE_RATIO = 1.5f;
 
+    // Variables
     inline GLFWwindow* window;
 
+    // Functions
     void run();
 }

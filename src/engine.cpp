@@ -19,7 +19,11 @@ static void loadWindow(){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "LearnOpenGL", NULL, NULL);
+    window = glfwCreateWindow(
+        WINDOW_WIDTH / WAYLAND_SCALE_RATIO, 
+        WINDOW_HEIGHT / WAYLAND_SCALE_RATIO, 
+        "LearnOpenGL", NULL, NULL);
+
     if (window == NULL){
         std::cout << "[GLFW] INFO : Failed to create window\n";
         glfwTerminate();
@@ -33,8 +37,7 @@ static void loadWindow(){
         glfwTerminate();
     }
 
-    int fbwidth, fbheight;
-    glGetFramebufferSize()
+    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     std::cout << "[GLFW] INFO : Window created successfully\n";
 }
@@ -68,7 +71,7 @@ static void updateWindow(){
         input::process();
 
         // Render commands
-        graphics::clearBackground(0.8f, 1.0f, 0.8f, 1.0f);
+        graphics::clearBackground(0.0f, 0.0f, 0.0f, 1.0f);
 
         // Single VBO rendering
         glUseProgram(graphics::defaultShaderProgram);
@@ -106,7 +109,10 @@ static void setCallbackFunctions(){
 // Callback functions definitions
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport(0, 0, width, height);
+    int w, h;
+    glfwGetFramebufferSize(window, &w, &h);
+    glViewport(0, 0, w, h);
+    std::cout << "Framebuffer changed : " << w << ' ' << h << '\n';
 }
 
 }
