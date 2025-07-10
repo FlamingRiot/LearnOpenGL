@@ -24,7 +24,7 @@ namespace graphics{
     "out vec4 fragColor;\n"
     "void main()\n"
     "{\n"
-    "fragColor = vec4(1.0f, 0.5f, 0.2f, 1.0);"
+    "fragColor = vec4(1.0f, 0.0f, 0.5f, 1.0);"
     "}\n";
 
     void clearBackground(float r, float g, float b, float a){

@@ -33,13 +33,13 @@ static void loadWindow(){
         dimensions. This way, the OpenGL context and the 
         framebuffer perfectly match. 
     */
+    bool isWayland = std::getenv("WAYLAND_DISPLAY");
     window = glfwCreateWindow(
-        WINDOW_WIDTH / WAYLAND_SCALE_RATIO, 
-        WINDOW_HEIGHT / WAYLAND_SCALE_RATIO, 
+        WINDOW_WIDTH / (WAYLAND_SCALE_RATIO - !isWayland * 0.5), 
+        WINDOW_HEIGHT / (WAYLAND_SCALE_RATIO - !isWayland * 0.5), 
         "LearnOpenGL", NULL, NULL);
-    // Should be executed when using anything but Wayland
-    // window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "LearnOpenGL", NULL, NULL);
 
+    // Check for window creation
     if (window == NULL){
         std::cout << "[GLFW] INFO : Failed to create window\n";
         glfwTerminate();
