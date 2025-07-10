@@ -9,6 +9,8 @@
 
 namespace engine {
 
+using namespace graphics;
+
 // Callback functions declaration
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -84,11 +86,8 @@ static void updateWindow(){
     "fragColor = vec4(0.0f, 1.0f, 0.5f, 1.0);"
     "}\n";
 
-    graphics::Shader shaderA = graphics::Shader(&vertexShaderA, &fragmentShaderA);
-    graphics::Shader shaderB = graphics::Shader(&vertexShaderA, &fragmentShaderB);
-
-    // The code below and before render loop is to be run once
-    // Define vertices
+    Shader shaderA = Shader(&vertexShaderA, &fragmentShaderA);
+    Shader shaderB = Shader(&vertexShaderA, &fragmentShaderB);
 
     // Exercise (Two VBOs and two shaders)
     float verticesA[] = {
@@ -97,39 +96,21 @@ static void updateWindow(){
        -0.3f, -0.5f, 0.0f,
     };
 
-    unsigned int VAOa;
-    glGenVertexArrays(1, &VAOa);
-    glBindVertexArray(VAOa);
-
-    unsigned int VBOa;
-    glGenBuffers(1, &VBOa);
-    glBindBuffer(GL_ARRAY_BUFFER, VBOa);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesA), verticesA, GL_STATIC_DRAW);
-
-    // Then set vertex attribute pointers [VAO]
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-
-    // Second VBO
-
     float verticesB[] = {
        -0.5f,  0.5f, 0.0f, 
         0.3f,  0.5f, 0.0f,
        -0.5f, -0.3f, 0.0f,
     };
 
-    unsigned int VAOb;
-    glGenVertexArrays(1, &VAOb);
-    glBindVertexArray(VAOb);
+    // First mesh
+    size_t countA = sizeof(verticesA) / sizeof(verticesA[0]);
+    Mesh triangleA = Mesh(verticesA, countA);
+    triangleA.material.shader = shaderA;
 
-    unsigned int VBOb;
-    glGenBuffers(1, &VBOb);
-    glBindBuffer(GL_ARRAY_BUFFER, VBOb);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesB), verticesB, GL_STATIC_DRAW);
-
-    // Then set vertex attribute pointers [VAO]
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    // Second mesh
+    size_t countB = sizeof(verticesB) / sizeof(verticesB[0]);
+    Mesh triangleB = Mesh(verticesB, countB);
+    triangleB.material.shader = shaderB;
 
     // -----------------------------------
 
@@ -174,20 +155,15 @@ static void updateWindow(){
         input::process();
 
         // Render commands
-        graphics::clearBackground(0.0f, 0.0f, 0.0f, 1.0f);
+        clearBackground(0.0f, 0.0f, 0.0f, 1.0f);
 
         // Single VBO rendering
         graphics::useBaseShader();
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-        graphics::useShader(shaderA);
-        glBindVertexArray(VAOa);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
-
-        graphics::useShader(shaderB);
-        glBindVertexArray(VAOb);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        drawMesh(triangleA);
+        drawMesh(triangleB);
 
         glBindVertexArray(0);
 

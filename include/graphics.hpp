@@ -1,8 +1,26 @@
 #pragma once
 
 #include "shader.hpp"
+#include <cstddef>
 
 namespace graphics{
+
+    class Material{
+        public:
+            Shader shader;
+
+        Material();
+    };
+
+    class Mesh{
+        public:
+            unsigned int verticesCount;
+            unsigned int VBO;
+            unsigned int VAO;
+            Material material;
+
+        Mesh(float* vertices, size_t count);
+    };
 
     // Variables
     inline Shader baseShader;
@@ -12,4 +30,7 @@ namespace graphics{
 
     // Shader related functions
     void loadDefaultShaders();
+
+    // Mesh related functions
+    void drawMesh(Mesh mesh);
 }

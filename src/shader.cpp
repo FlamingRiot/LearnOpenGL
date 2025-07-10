@@ -22,7 +22,7 @@ namespace graphics{
     "out vec4 fragColor;\n"
     "void main()\n"
     "{\n"
-    "fragColor = vec4(1.0f, 0.0f, 0.5f, 1.0);"
+    "fragColor = vec4(1.0f, 1.0f, 1.0f, 1.0);"
     "}\n";
 
     // Debug functions
