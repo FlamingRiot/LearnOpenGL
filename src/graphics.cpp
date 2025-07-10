@@ -54,6 +54,10 @@ namespace graphics{
         glAttachShader(defaultShaderProgram, fragmentShader);
         glLinkProgram(defaultShaderProgram);
         checkProgramLinkStatus(defaultShaderProgram);
+
+        // Clean shader objects
+        glDeleteShader(vertexShader);
+        glDeleteShader(fragmentShader);
     }
 
     static void checkShaderCompileStatus(unsigned int shaderId){

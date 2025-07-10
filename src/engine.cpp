@@ -33,13 +33,15 @@ static void loadWindow(){
         glfwTerminate();
     }
 
-    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    int fbwidth, fbheight;
+    glGetFramebufferSize()
 
     std::cout << "[GLFW] INFO : Window created successfully\n";
 }
 
 static void updateWindow(){
 
+    // The code below and before render loop is to be run once
     // Define vertices
     float vertices[] = {
         -0.5f, -0.5f, 0.0f,
@@ -54,13 +56,24 @@ static void updateWindow(){
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     // Copy the defined data to the Array Buffer (which is linked to our current VBO)
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    
+    // Define vertex attribute
+    unsigned int VAO;
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
     while (!glfwWindowShouldClose(window)){
         // Input
         input::process();
 
         // Render commands
         graphics::clearBackground(0.8f, 1.0f, 0.8f, 1.0f);
+
+        // Single VBO rendering
+        glUseProgram(graphics::defaultShaderProgram);
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         // Swap buffers and check/call events
         glfwSwapBuffers(window);
