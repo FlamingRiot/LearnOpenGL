@@ -34,9 +34,10 @@ static void loadWindow(){
         framebuffer perfectly match. 
     */
     bool isWayland = std::getenv("WAYLAND_DISPLAY");
+    float scale = WAYLAND_SCALE_RATIO - !isWayland * (WAYLAND_SCALE_RATIO - 1);
     window = glfwCreateWindow(
-        WINDOW_WIDTH / (WAYLAND_SCALE_RATIO - !isWayland * 0.5), 
-        WINDOW_HEIGHT / (WAYLAND_SCALE_RATIO - !isWayland * 0.5), 
+        WINDOW_WIDTH / scale, 
+        WINDOW_HEIGHT / scale, 
         "LearnOpenGL", NULL, NULL);
 
     // Check for window creation
