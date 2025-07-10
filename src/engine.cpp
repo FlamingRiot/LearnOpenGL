@@ -112,7 +112,7 @@ static void updateWindow(){
         graphics::clearBackground(0.0f, 0.0f, 0.0f, 1.0f);
 
         // Single VBO rendering
-        glUseProgram(graphics::defaultShaderProgram);
+        glUseProgram(graphics::baseShader.id);
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glBindVertexArray(0);
@@ -131,7 +131,9 @@ static void closeWindow(){
 void run(){
     // Load Engine
     loadWindow();
-    graphics::loadDefaultShaders();
+
+    // Load base shader
+    graphics::baseShader = graphics::Shader();
 
     // Update engine
     updateWindow();
