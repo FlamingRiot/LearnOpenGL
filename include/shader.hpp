@@ -14,5 +14,7 @@ namespace graphics{
             void unload();
     };
 
-    void loadDefaultShaders();
+    void loadGlShaders();
+    void useShader(Shader shader);
+    void useBaseShader();
 }

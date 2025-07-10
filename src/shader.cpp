@@ -25,8 +25,11 @@ namespace graphics{
     "fragColor = vec4(1.0f, 0.0f, 0.5f, 1.0);"
     "}\n";
 
+    // Debug functions
     static void checkShaderCompileStatus(unsigned int shaderId);
     static void checkProgramLinkStatus(unsigned int programId);
+
+    Shader::Shader() {}
 
     Shader::Shader(const char** vertexShaderTxt, const char** fragmentShaderTxt){
         // Create vertex shader
@@ -56,11 +59,22 @@ namespace graphics{
         glDeleteShader(fragmentShader);
     }
 
-    Shader::Shader() {}
-
-    void loadDefaultShaders(){
+    void loadGlShaders(){
         baseShader = Shader(&vertexShaderSource, &fragmentShaderSource);
     }
+
+    void useShader(Shader shader){
+        glUseProgram(shader.id);
+    }
+
+    void useBaseShader(){
+        glUseProgram(baseShader.id);
+    }
+
+    /*
+        The following functions are used for Debug purposes
+        and are related to shaders compilation. 
+    */
 
     static void checkShaderCompileStatus(unsigned int shaderId){
 
