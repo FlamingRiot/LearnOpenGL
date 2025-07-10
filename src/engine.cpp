@@ -60,24 +60,84 @@ static void loadWindow(){
 
 static void updateWindow(){
 
+    // Vertex shader 
+    const char *vertexShaderA = "#version 330 core\n"
+    "layout (location = 0) in vec3 aPos;\n"
+    "void main()\n"
+    "{\n"
+    " gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+    "}\0";
+
+    // Fragment shader
+    const char *fragmentShaderA = "#version 330 core\n"
+    "out vec4 fragColor;\n"
+    "void main()\n"
+    "{\n"
+    "fragColor = vec4(5.0f, 0.0f, 1.0f, 1.0);"
+    "}\n";
+
+    // Fragment shader
+    const char *fragmentShaderB = "#version 330 core\n"
+    "out vec4 fragColor;\n"
+    "void main()\n"
+    "{\n"
+    "fragColor = vec4(0.0f, 1.0f, 0.5f, 1.0);"
+    "}\n";
+
+    graphics::Shader shaderA = graphics::Shader(&vertexShaderA, &fragmentShaderA);
+    graphics::Shader shaderB = graphics::Shader(&vertexShaderA, &fragmentShaderB);
+
     // The code below and before render loop is to be run once
     // Define vertices
-    // float vertices[] = {
-    //     -0.5f, -0.5f, 0.0f,
-    //      0.5f, -0.5f, 0.0f,
-    //      0.0f,  0.5f, 0.0f
-    // };
+
+    // Exercise (Two VBOs and two shaders)
+    float verticesA[] = {
+        0.5f,  0.3f, 0.0f, 
+        0.5f, -0.5f, 0.0f,
+       -0.3f, -0.5f, 0.0f,
+    };
+
+    unsigned int VAOa;
+    glGenVertexArrays(1, &VAOa);
+    glBindVertexArray(VAOa);
+
+    unsigned int VBOa;
+    glGenBuffers(1, &VBOa);
+    glBindBuffer(GL_ARRAY_BUFFER, VBOa);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesA), verticesA, GL_STATIC_DRAW);
+
+    // Then set vertex attribute pointers [VAO]
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // Second VBO
+
+    float verticesB[] = {
+       -0.5f,  0.5f, 0.0f, 
+        0.3f,  0.5f, 0.0f,
+       -0.5f, -0.3f, 0.0f,
+    };
+
+    unsigned int VAOb;
+    glGenVertexArrays(1, &VAOb);
+    glBindVertexArray(VAOb);
+
+    unsigned int VBOb;
+    glGenBuffers(1, &VBOb);
+    glBindBuffer(GL_ARRAY_BUFFER, VBOb);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verticesB), verticesB, GL_STATIC_DRAW);
+
+    // Then set vertex attribute pointers [VAO]
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    // -----------------------------------
 
     float vertices[] = {
         0.5f,  0.5f, 0.0f, // top right
         0.5f, -0.5f, 0.0f, // bottom right
        -0.5f, -0.5f, 0.0f, // bottom left
        -0.5f,  0.5f, 0.0f // top left
-    };
-
-    unsigned int indices[] = {
-        0, 1, 3,
-        1, 2, 3
     };
 
     // Define vertex attribute [VAO]
@@ -93,6 +153,11 @@ static void updateWindow(){
     // Copy the defined data to the Array Buffer (which is linked to our current VBO)
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
+    unsigned int indices[] = {
+        0, 1, 3,
+        1, 2, 3
+    };
+
     // Generate Element Buffer Object [EBO]
     unsigned int EBO;
     glGenBuffers(1, &EBO);
@@ -100,7 +165,7 @@ static void updateWindow(){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
-    // Then set vertex attribute pointers [VAO]
+    // // Then set vertex attribute pointers [VAO]
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
@@ -115,6 +180,15 @@ static void updateWindow(){
         graphics::useBaseShader();
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+        graphics::useShader(shaderA);
+        glBindVertexArray(VAOa);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
+        graphics::useShader(shaderB);
+        glBindVertexArray(VAOb);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+
         glBindVertexArray(0);
 
         // Swap buffers and check/call events
