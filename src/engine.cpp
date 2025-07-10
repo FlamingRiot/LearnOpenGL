@@ -19,10 +19,26 @@ static void loadWindow(){
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+    /*
+        The tweak applied below on the window's dimensions is 
+        due to a compatibility issue between GLFW and Wayland.
+        For some reason, Wayland applies a scaling of 1.5 to its
+        windows. This scaling is only communicated to GLFW after
+        the first render loop iteration, thus creating on offset
+        between the OpenGL drawing context and the framebuffer.
+        Although some callback functions should be executed after
+        this scaling, it seems there are not. Which is why the 
+        best option in terms of performance is to scale down the 
+        window at creation, so that it later gets its desired 
+        dimensions. This way, the OpenGL context and the 
+        framebuffer perfectly match. 
+    */
     window = glfwCreateWindow(
         WINDOW_WIDTH / WAYLAND_SCALE_RATIO, 
         WINDOW_HEIGHT / WAYLAND_SCALE_RATIO, 
         "LearnOpenGL", NULL, NULL);
+    // Should be executed when using anything but Wayland
+    // window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "LearnOpenGL", NULL, NULL);
 
     if (window == NULL){
         std::cout << "[GLFW] INFO : Failed to create window\n";
