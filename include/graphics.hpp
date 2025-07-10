@@ -10,4 +10,9 @@ namespace graphics{
 
     // Shader related functions
     void loadDefaultShaders();
+
+    class Shader{
+        unsigned int id;
+        
+    }
 }
