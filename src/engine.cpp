@@ -6,6 +6,7 @@
 #include "input.hpp"
 #include "graphics.hpp"
 #include <iostream>
+#include <cmath>
 
 namespace engine {
 
@@ -64,10 +65,12 @@ static void updateWindow(){
 
     // Fragment shader
     const char *fragmentShaderA = "#version 330 core\n"
+    "uniform vec4 ourColor;"
     "out vec4 fragColor;\n"
     "void main()\n"
     "{\n"
-    "fragColor = vec4(1.0f, 0.0f, 0.5f, 1.0);"
+    // "fragColor = vec4(1.0f, 0.0f, 0.5f, 1.0);"
+    "fragColor = ourColor;"
     "}\n";
 
     Shader shaderA = Shader(NULL, &fragmentShaderA);
@@ -96,6 +99,13 @@ static void updateWindow(){
 
         // Render commands
         clearBackground(0.0f, 0.0f, 0.0f, 1.0f);
+
+        // Shader manipulation
+        float timeValue = glfwGetTime();
+        float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
+        int vertexColorLocation = glGetUniformLocation(shaderA.id, "ourColor");
+        glUseProgram(shaderA.id);
+        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
         // Single VBO rendering
         drawMesh(quad);
