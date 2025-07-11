@@ -86,8 +86,8 @@ static void updateWindow(){
     "fragColor = vec4(0.0f, 1.0f, 0.5f, 1.0);"
     "}\n";
 
-    Shader shaderA = Shader(&vertexShaderA, &fragmentShaderA);
-    Shader shaderB = Shader(&vertexShaderA, &fragmentShaderB);
+    Shader shaderA = Shader(NULL, &fragmentShaderA);
+    Shader shaderB = Shader(NULL, &fragmentShaderB);
 
     // Exercise (Two VBOs and two shaders)
     float verticesA[] = {

@@ -34,17 +34,23 @@ namespace graphics{
     Shader::Shader(const char** vertexShaderTxt, const char** fragmentShaderTxt){
         // Create vertex shader
         unsigned int vertexShader;
-        vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertexShader, 1, vertexShaderTxt, NULL);
-        glCompileShader(vertexShader);
-        checkShaderCompileStatus(vertexShader);
+        if (vertexShaderTxt != NULL){
+            vertexShader = glCreateShader(GL_VERTEX_SHADER);
+            glShaderSource(vertexShader, 1, vertexShaderTxt, NULL);
+            glCompileShader(vertexShader);
+            checkShaderCompileStatus(vertexShader);     
+        }
+        else vertexShader = baseVertexShader;
 
         // Create fragment shader
         unsigned int fragmentShader;
-        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragmentShader, 1, fragmentShaderTxt, NULL);
-        glCompileShader(fragmentShader);
-        checkShaderCompileStatus(fragmentShader);
+        if (fragmentShaderTxt != NULL){
+            fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+            glShaderSource(fragmentShader, 1, fragmentShaderTxt, NULL);
+            glCompileShader(fragmentShader);
+            checkShaderCompileStatus(fragmentShader);
+        }
+        else fragmentShader = baseFragmentShader;
 
         // Link to shader program
         int programId = glCreateProgram();
@@ -55,12 +61,24 @@ namespace graphics{
         this->id = programId;
 
         // Clean single shaders
-        glDeleteShader(vertexShader);
-        glDeleteShader(fragmentShader);
+         if (vertexShaderTxt != NULL) glDeleteShader(vertexShader);
+         if (fragmentShaderTxt != NULL) glDeleteShader(fragmentShader);
     }
 
     void loadGlShaders(){
-        baseShader = Shader(&vertexShaderSource, &fragmentShaderSource);
+        // Base vertex shader
+        baseVertexShader = glCreateShader(GL_VERTEX_SHADER);
+        glShaderSource(baseVertexShader, 1, &vertexShaderSource, NULL);
+        glCompileShader(baseVertexShader);
+        checkShaderCompileStatus(baseVertexShader);
+
+        // Base fragment shader
+        baseFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        glShaderSource(baseFragmentShader, 1, &fragmentShaderSource, NULL);
+        glCompileShader(baseFragmentShader);
+        checkShaderCompileStatus(baseFragmentShader);
+
+        baseShader = Shader(NULL, NULL);
     }
 
     void useShader(Shader shader){
