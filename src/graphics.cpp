@@ -13,9 +13,10 @@ namespace graphics{
         this->shader = baseShader;
     }
 
-    Mesh::Mesh(float* vertices, size_t count){
+    Mesh::Mesh(float* vertices, size_t vertexCount, unsigned int* indices, size_t indexCount){
 
-        this->verticesCount = count / 3;
+        this->vertexCount = vertexCount / 3;
+        this->indexCount = indexCount;
 
         // Generate VAO
         glGenVertexArrays(1, &(this->VAO));        
@@ -24,11 +25,17 @@ namespace graphics{
         // Generate VBO
         glGenBuffers(1, &(this->VBO));
         glBindBuffer(GL_ARRAY_BUFFER, this->VBO);
-        glBufferData(GL_ARRAY_BUFFER, count * sizeof(float), vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(float), vertices, GL_STATIC_DRAW);
+
+        // Generate EBO
+        glGenBuffers(1, &(this->EBO));
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
         // Finalize VAO
-        glVertexAttribPointer(0, this->verticesCount, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(0);
+        glBindVertexArray(0);
 
         // Set default material
         this->material = Material();
@@ -37,7 +44,10 @@ namespace graphics{
     void drawMesh(Mesh mesh){
         useShader(mesh.material.shader);
         glBindVertexArray(mesh.VAO);
-        glDrawArrays(GL_TRIANGLES, 0, mesh.verticesCount);
+
+        // Draw call
+        glDrawElements(GL_TRIANGLES, mesh.indexCount, GL_UNSIGNED_INT, 0);
+
         glBindVertexArray(0);
     }
 

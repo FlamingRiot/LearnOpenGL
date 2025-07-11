@@ -62,57 +62,15 @@ static void loadWindow(){
 
 static void updateWindow(){
 
-    // Vertex shader 
-    const char *vertexShaderA = "#version 330 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "void main()\n"
-    "{\n"
-    " gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "}\0";
-
     // Fragment shader
     const char *fragmentShaderA = "#version 330 core\n"
     "out vec4 fragColor;\n"
     "void main()\n"
     "{\n"
-    "fragColor = vec4(5.0f, 0.0f, 1.0f, 1.0);"
-    "}\n";
-
-    // Fragment shader
-    const char *fragmentShaderB = "#version 330 core\n"
-    "out vec4 fragColor;\n"
-    "void main()\n"
-    "{\n"
-    "fragColor = vec4(0.0f, 1.0f, 0.5f, 1.0);"
+    "fragColor = vec4(1.0f, 0.0f, 0.5f, 1.0);"
     "}\n";
 
     Shader shaderA = Shader(NULL, &fragmentShaderA);
-    Shader shaderB = Shader(NULL, &fragmentShaderB);
-
-    // Exercise (Two VBOs and two shaders)
-    float verticesA[] = {
-        0.5f,  0.3f, 0.0f, 
-        0.5f, -0.5f, 0.0f,
-       -0.3f, -0.5f, 0.0f,
-    };
-
-    float verticesB[] = {
-       -0.5f,  0.5f, 0.0f, 
-        0.3f,  0.5f, 0.0f,
-       -0.5f, -0.3f, 0.0f,
-    };
-
-    // First mesh
-    size_t countA = sizeof(verticesA) / sizeof(verticesA[0]);
-    Mesh triangleA = Mesh(verticesA, countA);
-    triangleA.material.shader = shaderA;
-
-    // Second mesh
-    size_t countB = sizeof(verticesB) / sizeof(verticesB[0]);
-    Mesh triangleB = Mesh(verticesB, countB);
-    triangleB.material.shader = shaderB;
-
-    // -----------------------------------
 
     float vertices[] = {
         0.5f,  0.5f, 0.0f, // top right
@@ -121,34 +79,16 @@ static void updateWindow(){
        -0.5f,  0.5f, 0.0f // top left
     };
 
-    // Define vertex attribute [VAO]
-    unsigned int VAO;
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
-    // Generate Vertex Buffer Object [VBO]
-    unsigned int VBO;
-    glGenBuffers(1, &VBO);
-    // Bind VBO to the Array Buffer
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // Copy the defined data to the Array Buffer (which is linked to our current VBO)
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
     unsigned int indices[] = {
         0, 1, 3,
         1, 2, 3
     };
 
-    // Generate Element Buffer Object [EBO]
-    unsigned int EBO;
-    glGenBuffers(1, &EBO);
-    // Bind EBO to the Element Array Buffer
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    // // Then set vertex attribute pointers [VAO]
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    // Create quad
+    size_t vertexCount = sizeof(vertices) / sizeof(vertices[0]);
+    size_t indexCount = sizeof(indices) / sizeof(indices[0]);
+    Mesh quad = Mesh(vertices, vertexCount, indices, indexCount);
+    quad.material.shader = shaderA;
 
     while (!glfwWindowShouldClose(window)){
         // Input
@@ -158,14 +98,7 @@ static void updateWindow(){
         clearBackground(0.0f, 0.0f, 0.0f, 1.0f);
 
         // Single VBO rendering
-        graphics::useBaseShader();
-        glBindVertexArray(VAO);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-        drawMesh(triangleA);
-        drawMesh(triangleB);
-
-        glBindVertexArray(0);
+        drawMesh(quad);
 
         // Swap buffers and check/call events
         glfwSwapBuffers(window);
