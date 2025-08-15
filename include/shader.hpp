@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef SHADER_H
+#define SHADER_H
+
 namespace graphics{
 
     class Shader{
@@ -8,8 +11,7 @@ namespace graphics{
             unsigned int id;
 
             Shader();
-            Shader(const char** vertexShaderTxt, const char** fragmentShaderTxt);
-            // Shader(std::string vertexShaderFile, std::string fragmentShaderFile);
+            Shader(const char* vertexFile, const char* fragmentFile);
 
             void unload();
     };
@@ -18,3 +20,5 @@ namespace graphics{
     void useShader(Shader shader);
     int getShaderLocation(Shader shader, const char* uniform);
 }
+
+#endif

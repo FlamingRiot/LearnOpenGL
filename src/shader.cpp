@@ -5,6 +5,10 @@
 #include <glfw3.h>
 
 #include <iostream>
+#include <string>
+#include <cstring>
+#include <fstream>
+#include <sstream>
 
 namespace graphics{
 
@@ -35,23 +39,32 @@ namespace graphics{
 
     // Internal functions
     static void compileShader(unsigned int shader, const char** shaderTxt);
+    static std::string readCodeFromFile(const char* codePath);
 
     Shader::Shader() {}
 
-    Shader::Shader(const char** vertexShaderTxt, const char** fragmentShaderTxt){
+    Shader::Shader(const char* vertexFile, const char* fragmentFile){
         // Create vertex shader
         unsigned int vertexShader;
-        if (vertexShaderTxt != NULL){
+        if (vertexFile != NULL){
             vertexShader = glCreateShader(GL_VERTEX_SHADER);
-            compileShader(vertexShader, vertexShaderTxt);   
+            // Retrieve shader data from file
+            std::string vertexCode = readCodeFromFile(vertexFile);
+            const char* cVertexCode = vertexCode.c_str();
+            if (vertexCode != "") compileShader(vertexShader, &cVertexCode);
+            else vertexShader = baseVertexShader;
         }
         else vertexShader = baseVertexShader;
 
         // Create fragment shader
         unsigned int fragmentShader;
-        if (fragmentShaderTxt != NULL){
+        if (fragmentFile != NULL){
             fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-            compileShader(fragmentShader, fragmentShaderTxt);
+            // Retrieve shader data from file
+            std::string fragmentCode = readCodeFromFile(fragmentFile);
+            const char* cFragmentCode = fragmentCode.c_str();
+            if (fragmentCode != "") compileShader(fragmentShader, &cFragmentCode);
+            else fragmentShader = baseFragmentShader;
         }
         else fragmentShader = baseFragmentShader;
 
@@ -64,8 +77,8 @@ namespace graphics{
         this->id = programId;
 
         // Clean single shaders
-         if (vertexShaderTxt != NULL) glDeleteShader(vertexShader);
-         if (fragmentShaderTxt != NULL) glDeleteShader(fragmentShader);
+         if (vertexFile != NULL) glDeleteShader(vertexShader);
+         if (fragmentFile != NULL) glDeleteShader(fragmentShader);
     }
 
     void loadGlShaders(){
@@ -92,6 +105,26 @@ namespace graphics{
             glShaderSource(shader, 1, shaderTxt, NULL);
             glCompileShader(shader);
             checkShaderCompileStatus(shader);  
+    }
+
+    static std::string readCodeFromFile(const char* codePath){
+        std::string code;
+        std::ifstream codeFile;
+        // Ensure ifstream can throw exceptions
+        codeFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
+        try{
+            // Open file
+            codeFile.open(codePath);
+            std::stringstream codeStream;
+            codeStream << codeFile.rdbuf();
+            codeFile.close();
+            code = codeStream.str();
+            return code;
+        }
+        catch (std::ifstream::failure e){
+            std::cerr << "[SHADER] INFO : Shader file could not be read : " << strerror(errno) << std::endl;
+            return "";
+        }
     }
 
     /*
