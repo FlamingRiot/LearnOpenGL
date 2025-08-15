@@ -29,6 +29,9 @@ namespace graphics{
     static void checkShaderCompileStatus(unsigned int shaderId);
     static void checkProgramLinkStatus(unsigned int programId);
 
+    // Internal functions
+    static void compileShader(unsigned int shader, const char** shaderTxt);
+
     Shader::Shader() {}
 
     Shader::Shader(const char** vertexShaderTxt, const char** fragmentShaderTxt){
@@ -36,9 +39,7 @@ namespace graphics{
         unsigned int vertexShader;
         if (vertexShaderTxt != NULL){
             vertexShader = glCreateShader(GL_VERTEX_SHADER);
-            glShaderSource(vertexShader, 1, vertexShaderTxt, NULL);
-            glCompileShader(vertexShader);
-            checkShaderCompileStatus(vertexShader);     
+            compileShader(vertexShader, vertexShaderTxt);   
         }
         else vertexShader = baseVertexShader;
 
@@ -46,9 +47,7 @@ namespace graphics{
         unsigned int fragmentShader;
         if (fragmentShaderTxt != NULL){
             fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-            glShaderSource(fragmentShader, 1, fragmentShaderTxt, NULL);
-            glCompileShader(fragmentShader);
-            checkShaderCompileStatus(fragmentShader);
+            compileShader(fragmentShader, fragmentShaderTxt);
         }
         else fragmentShader = baseFragmentShader;
 
@@ -68,15 +67,11 @@ namespace graphics{
     void loadGlShaders(){
         // Base vertex shader
         baseVertexShader = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(baseVertexShader, 1, &vertexShaderSource, NULL);
-        glCompileShader(baseVertexShader);
-        checkShaderCompileStatus(baseVertexShader);
+        compileShader(baseVertexShader, &vertexShaderSource);
 
         // Base fragment shader
         baseFragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(baseFragmentShader, 1, &fragmentShaderSource, NULL);
-        glCompileShader(baseFragmentShader);
-        checkShaderCompileStatus(baseFragmentShader);
+        compileShader(baseFragmentShader, &fragmentShaderSource);
 
         baseShader = Shader(NULL, NULL);
     }
@@ -87,6 +82,12 @@ namespace graphics{
 
     void useBaseShader(){
         glUseProgram(baseShader.id);
+    }
+
+    static void compileShader(unsigned int shader, const char** shaderTxt){
+            glShaderSource(shader, 1, shaderTxt, NULL);
+            glCompileShader(shader);
+            checkShaderCompileStatus(shader);  
     }
 
     /*
