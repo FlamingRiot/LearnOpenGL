@@ -16,5 +16,5 @@ namespace graphics{
 
     void loadGlShaders();
     void useShader(Shader shader);
-    void useBaseShader();
+    int getShaderLocation(Shader shader, const char* uniform);
 }

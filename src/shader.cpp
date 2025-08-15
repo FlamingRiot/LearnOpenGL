@@ -12,17 +12,21 @@ namespace graphics{
     // Vertex shader 
     const char *vertexShaderSource = "#version 330 core\n"
     "layout (location = 0) in vec3 aPos;\n"
+    "layout (location = 1) in vec3 aCol;\n"
+    "out vec3 fragColor;\n"
     "void main()\n"
     "{\n"
+    " fragColor = aCol;\n"
     " gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
     "}\0";
 
     // Fragment shader
     const char *fragmentShaderSource = "#version 330 core\n"
-    "out vec4 fragColor;\n"
+    "out vec4 finalColor;\n"
+    "in vec3 fragColor;\n"
     "void main()\n"
     "{\n"
-    "fragColor = vec4(1.0f, 1.0f, 1.0f, 1.0);"
+    "finalColor = vec4(fragColor, 1.0);"
     "}\n";
 
     // Debug functions
@@ -80,8 +84,8 @@ namespace graphics{
         glUseProgram(shader.id);
     }
 
-    void useBaseShader(){
-        glUseProgram(baseShader.id);
+    int getShaderLocation(Shader shader, const char* uniform){
+        return glGetUniformLocation(shader.id, uniform);
     }
 
     static void compileShader(unsigned int shader, const char** shaderTxt){

@@ -65,21 +65,22 @@ static void updateWindow(){
 
     // Fragment shader
     const char *fragmentShaderA = "#version 330 core\n"
-    "uniform vec4 ourColor;"
-    "out vec4 fragColor;\n"
+    "uniform float time;"
+    "out vec4 finalColor;\n"
+    "in vec3 fragColor;\n"
     "void main()\n"
     "{\n"
-    // "fragColor = vec4(1.0f, 0.0f, 0.5f, 1.0);"
-    "fragColor = ourColor;"
+    "float alpha = (sin(time) / 2.0) + 0.5;\n"
+    "finalColor = vec4(fragColor.xy, alpha, 1.0);"
     "}\n";
 
     Shader shaderA = Shader(NULL, &fragmentShaderA);
 
     float vertices[] = {
-        0.5f,  0.5f, 0.0f, // top right
-        0.5f, -0.5f, 0.0f, // bottom right
-       -0.5f, -0.5f, 0.0f, // bottom left
-       -0.5f,  0.5f, 0.0f // top left
+        0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // top right
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
+       -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom left
+       -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f, // top left
     };
 
     unsigned int indices[] = {
@@ -103,9 +104,9 @@ static void updateWindow(){
         // Shader manipulation
         float timeValue = glfwGetTime();
         float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
-        int vertexColorLocation = glGetUniformLocation(shaderA.id, "ourColor");
+        int timeLocation = getShaderLocation(shaderA, "time");
         glUseProgram(shaderA.id);
-        glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+        glUniform1f(timeLocation, timeValue);
 
         // Single VBO rendering
         drawMesh(quad);
