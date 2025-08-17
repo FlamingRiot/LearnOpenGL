@@ -122,6 +122,7 @@ namespace graphics{
             return code;
         }
         catch (std::ifstream::failure e){
+            std::cout << "[FILE] Path to the file : " << codePath << std::endl;
             std::cerr << "[SHADER] INFO : Shader file could not be read : " << strerror(errno) << std::endl;
             return "";
         }

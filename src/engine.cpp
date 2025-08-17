@@ -74,7 +74,7 @@ static void updateWindow(){
     "finalColor = vec4(fragColor.xy, alpha, 1.0);"
     "}\n";
 
-    Shader shaderA = Shader(NULL, "../src/shaders/fragment.fs");
+    Shader shaderA = Shader(NULL, "src/shaders/fragment.fs");
 
     float vertices[] = {
         0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // top right
