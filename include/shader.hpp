@@ -1,14 +1,11 @@
 #pragma once
 
-#ifndef SHADER_H
-#define SHADER_H
-
 namespace graphics{
 
     class Shader{
 
         public: 
-            unsigned int id;
+            unsigned int ID;
 
             Shader();
             Shader(const char* vertexFile, const char* fragmentFile);
@@ -20,5 +17,3 @@ namespace graphics{
     void useShader(Shader shader);
     int getShaderLocation(Shader shader, const char* uniform);
 }
-
-#endif

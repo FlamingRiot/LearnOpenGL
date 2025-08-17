@@ -74,7 +74,7 @@ namespace graphics{
         glAttachShader(programId, fragmentShader);
         glLinkProgram(programId);
         checkProgramLinkStatus(programId);
-        this->id = programId;
+        this->ID = programId;
 
         // Clean single shaders
          if (vertexFile != NULL) glDeleteShader(vertexShader);
@@ -94,11 +94,11 @@ namespace graphics{
     }
 
     void useShader(Shader shader){
-        glUseProgram(shader.id);
+        glUseProgram(shader.ID);
     }
 
     int getShaderLocation(Shader shader, const char* uniform){
-        return glGetUniformLocation(shader.id, uniform);
+        return glGetUniformLocation(shader.ID, uniform);
     }
 
     static void compileShader(unsigned int shader, const char** shaderTxt){
@@ -122,7 +122,6 @@ namespace graphics{
             return code;
         }
         catch (std::ifstream::failure e){
-            std::cout << "[FILE] Path to the file : " << codePath << std::endl;
             std::cerr << "[SHADER] INFO : Shader file could not be read : " << strerror(errno) << std::endl;
             return "";
         }

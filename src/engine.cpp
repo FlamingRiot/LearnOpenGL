@@ -74,7 +74,7 @@ static void updateWindow(){
     "finalColor = vec4(fragColor.xy, alpha, 1.0);"
     "}\n";
 
-    Shader shaderA = Shader(NULL, "src/shaders/fragment.fs");
+    Shader shaderA = Shader("src/shaders/vertex.vs", "src/shaders/fragment.fs");
 
     float vertices[] = {
         0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // top right
@@ -86,6 +86,13 @@ static void updateWindow(){
     unsigned int indices[] = {
         0, 1, 3,
         1, 2, 3
+    };
+
+    float texCoords[] = {
+        1.0f, 1.0f,
+        1.0f, 0.0f,
+        0.0f, 0.0f,
+        0.0f, 1.0f
     };
 
     // Create quad
@@ -105,7 +112,7 @@ static void updateWindow(){
         float timeValue = glfwGetTime();
         float greenValue = (sin(timeValue) / 2.0f) + 0.5f;
         int timeLocation = getShaderLocation(shaderA, "time");
-        glUseProgram(shaderA.id);
+        glUseProgram(shaderA.ID);
         glUniform1f(timeLocation, timeValue);
 
         // Single VBO rendering
