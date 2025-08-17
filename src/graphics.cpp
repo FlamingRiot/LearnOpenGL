@@ -9,9 +9,6 @@
 namespace graphics{
 
     // Type constructor definitions
-    Material::Material(){
-        this->shader = baseShader;
-    }
 
     Mesh::Mesh(float* vertices, size_t vertexCount, unsigned int* indices, size_t indexCount){
 
@@ -33,10 +30,15 @@ namespace graphics{
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
         // Finalize VAO
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+        // Position attribute
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        // Color attribute
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        // Texture coordinates attribute
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
         glBindVertexArray(0);
 
         // Set default material
@@ -45,6 +47,9 @@ namespace graphics{
 
     void drawMesh(Mesh mesh){
         useShader(mesh.material.shader);
+
+        // Bind VBO attributes
+        glBindTexture(GL_TEXTURE_2D, mesh.material.texture.ID);
         glBindVertexArray(mesh.VAO);
 
         // Draw call

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "shader.hpp"
+
 namespace graphics{
 
     class Texture{
@@ -12,6 +14,14 @@ namespace graphics{
 
         Texture();
         Texture(const char* textureFile);
+    };
+
+    class Material{
+        public:
+            Shader shader;
+            Texture texture;
+
+        Material();
     };
 
     void unloadTexture(Texture texture);

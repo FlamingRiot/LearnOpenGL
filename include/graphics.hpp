@@ -1,16 +1,10 @@
 #pragma once
 
 #include "shader.hpp"
+#include "textures.hpp"
 #include <cstddef>
 
 namespace graphics{
-
-    class Material{
-        public:
-            Shader shader;
-
-        Material();
-    };
 
     class Mesh{
         public:

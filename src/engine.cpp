@@ -77,10 +77,11 @@ static void updateWindow(){
     Shader shaderA = Shader("src/shaders/vertex.vs", "src/shaders/fragment.fs");
 
     float vertices[] = {
-        0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, // top right
-        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, // bottom right
-       -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom left
-       -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f, // top left
+        // Positions       // Colors         // Tex. Coords.
+        0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, // top right
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, // bottom right
+       -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
+       -0.5f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f // top left
     };
 
     unsigned int indices[] = {
@@ -88,18 +89,12 @@ static void updateWindow(){
         1, 2, 3
     };
 
-    float texCoords[] = {
-        1.0f, 1.0f,
-        1.0f, 0.0f,
-        0.0f, 0.0f,
-        0.0f, 1.0f
-    };
-
     // Create quad
     size_t vertexCount = sizeof(vertices) / sizeof(vertices[0]);
     size_t indexCount = sizeof(indices) / sizeof(indices[0]);
     Mesh quad = Mesh(vertices, vertexCount, indices, indexCount);
     quad.material.shader = shaderA;
+    quad.material.texture = Texture("res/container.jpg");
 
     while (!glfwWindowShouldClose(window)){
         // Input

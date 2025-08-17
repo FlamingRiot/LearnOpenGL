@@ -4,6 +4,7 @@
 #include <glfw3.h>
 
 #include "textures.hpp"
+#include "graphics.hpp"
 #include "stb_image.h"
 
 namespace graphics{
@@ -34,5 +35,9 @@ namespace graphics{
         
         // Free image memory
         stbi_image_free(data);
+    }
+
+    Material::Material(){
+        this->shader = baseShader;
     }
 }
