@@ -49,7 +49,11 @@ namespace graphics{
         useShader(mesh.material.shader);
 
         // Bind VBO attributes
+        glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, mesh.material.texture.ID);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, mesh.material.texture2.ID);
+
         glBindVertexArray(mesh.VAO);
 
         // Draw call

@@ -95,6 +95,7 @@ static void updateWindow(){
     Mesh quad = Mesh(vertices, vertexCount, indices, indexCount);
     quad.material.shader = shaderA;
     quad.material.texture = Texture("res/container.jpg");
+    quad.material.texture2 = Texture("res/awesomeface.png");
 
     while (!glfwWindowShouldClose(window)){
         // Input

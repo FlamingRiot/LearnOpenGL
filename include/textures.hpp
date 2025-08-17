@@ -20,6 +20,7 @@ namespace graphics{
         public:
             Shader shader;
             Texture texture;
+            Texture texture2;
 
         Material();
     };
