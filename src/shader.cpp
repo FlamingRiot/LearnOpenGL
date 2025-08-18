@@ -1,5 +1,6 @@
 #include "shader.hpp"
 #include "graphics.hpp"
+#include "stb_image.h"
 
 #include <glad/glad.h>
 #include <glfw3.h>
@@ -82,6 +83,9 @@ namespace graphics{
     }
 
     void loadGlShaders(){
+        // Set stbi to flip images on load vertically
+        stbi_set_flip_vertically_on_load(true);
+
         // Base vertex shader
         baseVertexShader = glCreateShader(GL_VERTEX_SHADER);
         compileShader(baseVertexShader, &vertexShaderSource);

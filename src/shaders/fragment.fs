@@ -19,7 +19,7 @@ void main(){
 
     // Sample textures
     vec4 texelColor1 = texture(texture0, fragTexCoord);
-    vec4 texelColor2 = texture(texture1, fragTexCoord);
+    vec4 texelColor2 = texture(texture1, vec2(fragTexCoord.x, -fragTexCoord.y));
 
     // Return final color
     finalColor = mix(texelColor1, texelColor2, 0.2) * freakyColor;
