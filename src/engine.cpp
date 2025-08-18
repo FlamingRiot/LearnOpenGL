@@ -63,18 +63,10 @@ static void loadWindow(){
 
 static void updateWindow(){
 
-    // Fragment shader
-    const char *fragmentShaderA = "#version 330 core\n"
-    "uniform float time;"
-    "out vec4 finalColor;\n"
-    "in vec3 fragColor;\n"
-    "void main()\n"
-    "{\n"
-    "float alpha = (sin(time) / 2.0) + 0.5;\n"
-    "finalColor = vec4(fragColor.xy, alpha, 1.0);"
-    "}\n";
-
     Shader shaderA = Shader("src/shaders/vertex.vs", "src/shaders/fragment.fs");
+    useShader(shaderA);
+    glUniform1i(getShaderLocation(shaderA, "texture0"), 0);
+    glUniform1i(getShaderLocation(shaderA, "texture1"), 1);
 
     float vertices[] = {
         // Positions       // Colors         // Tex. Coords.
@@ -95,7 +87,7 @@ static void updateWindow(){
     Mesh quad = Mesh(vertices, vertexCount, indices, indexCount);
     quad.material.shader = shaderA;
     quad.material.texture = Texture("res/container.jpg");
-    quad.material.texture2 = Texture("res/awesomeface.png");
+    quad.material.texture1 = Texture("res/awesomeface.png");
 
     while (!glfwWindowShouldClose(window)){
         // Input

@@ -22,5 +22,5 @@ void main(){
     vec4 texelColor2 = texture(texture1, fragTexCoord);
 
     // Return final color
-    finalColor = texelColor2;
+    finalColor = mix(texelColor1, texelColor2, 0.2) * freakyColor;
 }
