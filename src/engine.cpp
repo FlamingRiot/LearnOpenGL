@@ -7,6 +7,11 @@
 #include "core.hpp"
 #include "models.hpp"
 
+// GLM
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 #include <iostream>
 #include <cmath>
 
@@ -90,6 +95,13 @@ static void updateWindow(){
     quad.material.shader = shaderA;
     quad.material.texture = Texture("res/textures/container.jpg");
     quad.material.texture1 = Texture("res/textures/awesomeface.png");
+
+    // GLM Transformations Theory
+    glm::vec4 vec(1.0f, 0.0f, 0.0f, 1.0f);
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::translate(trans, glm::vec3(1.0f, 1.0f, 0.0f));
+    vec = trans * vec;
+    std::cout << vec.x << vec.y << vec.z;
 
     while (!glfwWindowShouldClose(window)){
         // Input
