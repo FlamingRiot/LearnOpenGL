@@ -63,7 +63,7 @@ static void loadWindow(){
 
 static void updateWindow(){
 
-    Shader shaderA = Shader("src/shaders/vertex.vs", "src/shaders/fragment.fs");
+    Shader shaderA = Shader("res/shaders/vertex.vs", "res/shaders/fragment.fs");
     useShader(shaderA);
     glUniform1i(getShaderLocation(shaderA, "texture0"), 0);
     glUniform1i(getShaderLocation(shaderA, "texture1"), 1);
@@ -86,8 +86,8 @@ static void updateWindow(){
     size_t indexCount = sizeof(indices) / sizeof(indices[0]);
     Mesh quad = Mesh(vertices, vertexCount, indices, indexCount);
     quad.material.shader = shaderA;
-    quad.material.texture = Texture("res/container.jpg");
-    quad.material.texture1 = Texture("res/awesomeface.png");
+    quad.material.texture = Texture("res/textures/container.jpg");
+    quad.material.texture1 = Texture("res/textures/awesomeface.png");
 
     while (!glfwWindowShouldClose(window)){
         // Input
