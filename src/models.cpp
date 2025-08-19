@@ -1,4 +1,4 @@
-#include "graphics.hpp"
+#include "models.hpp"
 #include "shader.hpp"
 
 #include <glad/glad.h>
@@ -8,9 +8,7 @@
 
 namespace graphics{
 
-    // Type constructor definitions
-
-    Mesh::Mesh(float* vertices, size_t vertexCount, unsigned int* indices, size_t indexCount){
+     Mesh::Mesh(float* vertices, size_t vertexCount, unsigned int* indices, size_t indexCount){
 
         this->vertexCount = vertexCount / 3;
         this->indexCount = indexCount;
@@ -60,11 +58,5 @@ namespace graphics{
         glDrawElements(GL_TRIANGLES, mesh.indexCount, GL_UNSIGNED_INT, 0);
 
         glBindVertexArray(0);
-    }
-
-    void clearBackground(float r, float g, float b, float a){
-        // Clear framebuffer with a defined color
-        glClearColor(r, g, b, a);
-        glClear(GL_COLOR_BUFFER_BIT);
     }
 }

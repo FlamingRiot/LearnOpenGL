@@ -1,5 +1,5 @@
 #include "shader.hpp"
-#include "graphics.hpp"
+#include "core.hpp"
 #include "stb_image.h"
 
 #include <glad/glad.h>

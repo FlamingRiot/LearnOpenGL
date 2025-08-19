@@ -4,7 +4,7 @@
 #include <glfw3.h>
 
 #include "textures.hpp"
-#include "graphics.hpp"
+#include "core.hpp"
 #include "stb_image.h"
 
 namespace graphics{

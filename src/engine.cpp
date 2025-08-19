@@ -4,7 +4,9 @@
 #include <glfw3.h>
 
 #include "input.hpp"
-#include "graphics.hpp"
+#include "core.hpp"
+#include "models.hpp"
+
 #include <iostream>
 #include <cmath>
 
