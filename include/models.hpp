@@ -2,6 +2,11 @@
 
 #include "textures.hpp"
 
+// GLM
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+
 #include <cstddef>
 
 namespace graphics{
@@ -16,6 +21,7 @@ namespace graphics{
             size_t indexCount = 0;
             
             Material material;
+            // glm::mat4 transform;
 
             Mesh(float* vertices, size_t vertexCount, unsigned int* indices, size_t indexCount);
     };

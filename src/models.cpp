@@ -41,6 +41,9 @@ namespace graphics{
 
         // Set default material
         this->material = Material();
+
+        // Set identity transform matrix
+        // this->transform = glm::mat4(1.0f);
     }
 
     void drawMesh(Mesh mesh){
