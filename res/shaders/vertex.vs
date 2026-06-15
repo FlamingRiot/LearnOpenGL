@@ -15,5 +15,6 @@ void main(){
     fragTexCoord = vertexTexCoord;
 
     // Set final vertex position
-    gl_Position = transform * vec4(vertexPos, 1.0);
+    //gl_Position = transform * vec4(vertexPos, 1.0);
+    gl_Position = vec4(vertexPos, 1.0);
 }

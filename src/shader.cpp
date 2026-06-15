@@ -146,7 +146,7 @@ namespace graphics{
             std::cout << "[SHADER] ERROR : Shader " << shaderId << " compilation failed : \n" << infoLog << '\n';
         }
         else{
-            std::cout << "[SHADER] INFO : Shader " << shaderId << " compiled successfully\n";
+            std::cout << "[SHADER] [ID " << shaderId << "] INFO : Shader compiled successfully\n";
         }
     }
 
@@ -160,7 +160,7 @@ namespace graphics{
             std::cout << "[SHADER] INFO : Failed to link program " << programId << '\n';
         }
         else{
-            std::cout << "[SHADER] INFO : Program " << programId << " linked successfully\n";
+            std::cout << "[SHADER] [ID " << programId << "] INFO : Program linked successfully\n";
         }
     }
 }

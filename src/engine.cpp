@@ -61,8 +61,10 @@ static void loadWindow(){
         std::cout << "[GLAD] ERROR : Failed to initialize\n" << std::endl;
         glfwTerminate();
     }
-    // We can now access OpenGL functions
 
+    std::cout << "GL Version: " << glGetString(GL_VERSION) << std::endl;
+
+    // We can now access OpenGL functions
     glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     std::cout << "[GLFW] INFO : Window created successfully\n";
