@@ -3,7 +3,6 @@
 #include "stb_image.h"
 
 #include <glad/glad.h>
-#include <glfw3.h>
 
 #include <iostream>
 #include <string>
